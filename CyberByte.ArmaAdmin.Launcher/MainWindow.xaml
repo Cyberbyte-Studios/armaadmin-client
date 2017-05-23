@@ -6,6 +6,12 @@
                       Height="350"
                       Width="525">
     <Grid>
+        <Image HorizontalAlignment="Center" Margin="0,10,10,10" VerticalAlignment="Top" Width="481" Source="text_dark_cropped.png"/>
+        <TextBox x:Name="username" Margin="10,83,10,210"/>
+        <PasswordBox x:Name="password" Margin="10,145,10,148"/>
+        <Label Content="Password" HorizontalAlignment="Left" Margin="13,114,0,0" VerticalAlignment="Top"/>
+        <Label Content="Username" HorizontalAlignment="Left" Margin="13,52,0,0" VerticalAlignment="Top"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="10,176,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Controls:MetroWindow>
