@@ -14,7 +14,7 @@ namespace CyberByte.ArmaAdmin.Launcher
         {
             try
             {
-                var client = new RestClient("");//Fetch the configured API URL from config
+                var client = new RestClient(Util.FetchConfigValue("apiBaseURL"));//Fetch the configured API URL from config
                 var request = new RestRequest(url, Method.GET);
 
                 IRestResponse response = client.Execute(request);
@@ -31,7 +31,7 @@ namespace CyberByte.ArmaAdmin.Launcher
         {
             try
             {
-                var client = new RestClient("");//Fetch the configured API URL from config
+                var client = new RestClient(Util.FetchConfigValue("apiBaseURL"));//Fetch the configured API URL from config
                 var request = new RestRequest(url, Method.POST);
 
                 foreach (string[] value in values)
