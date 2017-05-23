@@ -1,0 +1,16 @@
+﻿<Controls:MetroWindow x:Class="CyberByte.ArmaAdmin.Launcher.LoginWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      Title="Login"
+                      Height="350"
+                      Width="525">
+    <StackPanel Margin="10">
+        <Image HorizontalAlignment="Center" Width="481" Source="text_dark_cropped.png"/>
+        <Label Content="Username" Margin="0,5,0,5"/>
+        <TextBox x:Name="username" Margin="0,5,0,5"/>
+        <Label Content="Password" Margin="0,5,0,5"/>
+        <PasswordBox x:Name="password" Margin="0,5,0,5"/>
+        <Button Content="Button" Margin="0,5,0,5"/>
+    </StackPanel>
+</Controls:MetroWindow>
