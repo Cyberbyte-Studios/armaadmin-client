@@ -31,7 +31,9 @@ namespace CyberByte.ArmaAdmin.Launcher
         {
             Debug.WriteLine("Login Button Clicked");
 
-            Download.GetFiles();
+            ulong tmp = Download.HashFile("C:\\Users\\Mauirce Moss\\Documents\\Mission4.Altis.pbo");
+
+            Debug.WriteLine(tmp.ToString());
         }
     }
 }

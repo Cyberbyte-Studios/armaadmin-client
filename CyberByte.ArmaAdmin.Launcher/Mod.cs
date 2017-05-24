@@ -26,15 +26,15 @@ namespace CyberByte.ArmaAdmin.Launcher
 
     class Mod
     {
-        String Id { get; }
-        String Name { get;  }
-        UInt64 Size { get; }
-        String Relative_Path { get; }
-        String Hash { get;  }
-        String Url { get;  }
-        String Created { get; }
+        public String Id { get; }
+        public String Name { get;  }
+        public UInt64 Size { get; }
+        public String Relative_Path { get; }
+        public UInt64 Hash { get;  }
+        public String Url { get;  }
+        public String Created { get; }
 
-        public Mod(string id, string name, UInt64 size, string rel_path, string hash, string url, string timestamp)
+        public Mod(string id, string name, UInt64 size, string rel_path, ulong hash, string url, string timestamp)
         {
             Id = id;
             Name = name;

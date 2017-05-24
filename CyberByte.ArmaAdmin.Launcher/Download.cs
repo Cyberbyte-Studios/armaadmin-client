@@ -6,18 +6,23 @@ using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 using System;
 using System.Runtime.Serialization;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace CyberByte.ArmaAdmin.Launcher
 {
 
     class Download
     {
-        private static dynamic files;
         public HttpDownloadQueue downloadQueue = new HttpDownloadQueue();
+        private static List<FileInfo> files = new List<FileInfo>();
+        private static string BaseDir = "";
+        private static int BaseDirLength = 0;
 
         public static Mods GetFiles()
         {
-            files = (dynamic)Requests.Get("api/v1/files");
+            dynamic files = (dynamic)Requests.Get("api/v1/files");
 
             Task<Mods> modsTask = Task<Mods>.Factory.StartNew(() =>
             {
@@ -33,7 +38,7 @@ namespace CyberByte.ArmaAdmin.Launcher
                         (string)jsonMods[i].filename,
                         (ulong)jsonMods[i].size,
                         (string)jsonMods[i].realtive_path,
-                        (string)jsonMods[i].hash,
+                        (ulong)jsonMods[i].hash,
                         (string)jsonMods[i].download,
                         (string)jsonMods[i].created);
 
@@ -48,14 +53,95 @@ namespace CyberByte.ArmaAdmin.Launcher
             return modsTask.Result;
         }
 
-        private ulong HashFile(string path)
+        /*
+         *  TODO:
+         *  https://github.com/brandondahler/Data.HashFunction
+         *  https://www.nuget.org/packages/System.Data.HashFunction.xxHash
+         *  http://datahashfunction.azurewebsites.net/1.8.1/html/787eb446-5a08-d4ea-fde3-955fa4463198.htm
+         */
+        public static ulong HashFile(string path)
         {
-            Stream stream = File.OpenRead(@path);
+            Stream stream = File.OpenRead(path);
             XXHash.State64 state = XXHash.CreateState64();
 
             XXHash.UpdateState64(state, stream);
 
             return XXHash.DigestState64(state);
+        }
+
+        private static void WalkDirectoryTree(DirectoryInfo root)
+        {
+            FileInfo[] dirFiles = null;
+            DirectoryInfo[] subDirs = null;
+
+            try
+            {
+                dirFiles = root.GetFiles("*.*"); //All the files in this Directory
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+            }
+            catch (DirectoryNotFoundException exception)
+            {
+            }
+
+            if (dirFiles != null)
+            {
+                foreach (FileInfo fi in dirFiles)
+                {
+                    files.Add(fi);
+                }
+
+                subDirs = root.GetDirectories();
+
+                foreach (DirectoryInfo dirInfo in subDirs)
+                {
+                    WalkDirectoryTree(dirInfo);
+                }
+            }
+        }
+
+        private void calcFilesToDownload(List<Mod> mods, List<FileInfo> fileList)
+        {
+            foreach(FileInfo file in fileList)
+            {
+                string relPath = file.FullName.Substring(BaseDirLength);
+
+                Mod modFile = mods.FirstOrDefault(mod => mod.Relative_Path == relPath);
+
+                if (modFile == null)
+                {
+                    //Remove File Cameron
+                    continue;
+                }
+
+                if (HashFile(file.FullName) != modFile.Hash)
+                {
+                    downloadQueue.Add(modFile.Url, file.FullName);
+                    mods.Remove(modFile);
+                }
+            }
+
+            foreach(Mod file in mods)
+            {
+                downloadQueue.Add(file.Url, Path.Combine(BaseDir, file.Relative_Path));
+                mods.Remove(file);
+            }
+        }
+
+        public void start()
+        {
+            Mods mods = GetFiles();
+            BaseDirLength = BaseDir.Length;
+            DirectoryInfo dirInf = new DirectoryInfo(BaseDir);
+
+          
+            WalkDirectoryTree(dirInf);
+
+            calcFilesToDownload(mods.get(), files);
+
+            
+
         }
     }
 
