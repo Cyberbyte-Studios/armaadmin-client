@@ -9,6 +9,6 @@
         <Image HorizontalAlignment="Center" Source="{StaticResource Logo}" Stretch="None"/>
         <TextBox x:Name="username" Margin="0,5,0,5" Controls:TextBoxHelper.Watermark="Username"/>
         <PasswordBox x:Name="password" Margin="0,5,0,5" Controls:TextBoxHelper.Watermark="Password"/>
-        <Button x:Name="login"  Content="Login" Margin="0,5,0,5" Click="login_Click"/>
+        <Button x:Name="login" Style="{DynamicResource SquareButtonStyle}"  Content="Login" Margin="0,5,0,5" Click="login_Click"/>
     </StackPanel>
 </Controls:MetroWindow>
