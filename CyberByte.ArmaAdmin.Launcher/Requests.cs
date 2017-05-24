@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RestSharp;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics;
 
 namespace CyberByte.ArmaAdmin.Launcher
 {
@@ -18,6 +19,9 @@ namespace CyberByte.ArmaAdmin.Launcher
                 var request = new RestRequest(url, Method.GET);
 
                 IRestResponse response = client.Execute(request);
+
+
+                Debug.WriteLine(response.Content.ToString());
 
                 return JObject.Parse(response.Content.ToString());
             }

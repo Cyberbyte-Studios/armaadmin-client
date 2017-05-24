@@ -1,18 +1,22 @@
 ﻿using Extensions.Data;
 using System.IO;
 using AltoHttp;
-
+using System.Diagnostics;
+using Newtonsoft.Json.Linq;
 
 namespace CyberByte.ArmaAdmin.Launcher
 {
+
     class Download
     {
-        private dynamic files;
+        private static dynamic files;
         public HttpDownloadQueue downloadQueue = new HttpDownloadQueue();
 
-        private void GetFiles()
+        public static void GetFiles()
         {
             files = (dynamic)Requests.Get("api/v1/files");
+
+            Debug.WriteLine(files.count);
         }
 
         private ulong HashFile(string path)

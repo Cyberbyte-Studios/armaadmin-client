@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
+using System.Diagnostics;
 
 namespace CyberByte.ArmaAdmin.Launcher
 {
@@ -24,6 +25,12 @@ namespace CyberByte.ArmaAdmin.Launcher
         public LoginWindow()
         {
             InitializeComponent();
+        }
+
+        private void login_Click(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("Login Button Clicked");
+            Download.GetFiles();
         }
     }
 }

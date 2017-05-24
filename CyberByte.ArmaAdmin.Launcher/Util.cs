@@ -1,6 +1,5 @@
 ﻿using System.Configuration;
 
-
 namespace CyberByte.ArmaAdmin.Launcher
 {
     class Util
