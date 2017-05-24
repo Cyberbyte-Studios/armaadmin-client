@@ -20,14 +20,11 @@ namespace CyberByte.ArmaAdmin.Launcher
 
                 IRestResponse response = client.Execute(request);
 
-
-                Debug.WriteLine(response.Content.ToString());
-
                 return JObject.Parse(response.Content.ToString());
             }
             catch
             {
-                return null;
+                throw new Exception();
             }
         }
 
@@ -49,7 +46,7 @@ namespace CyberByte.ArmaAdmin.Launcher
             } 
             catch
             {
-                return null;
+                throw new Exception();
             }
         }
     }
