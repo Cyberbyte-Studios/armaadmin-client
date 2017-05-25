@@ -30,10 +30,7 @@ namespace CyberByte.ArmaAdmin.Launcher
         private void login_Click(object sender, RoutedEventArgs e)
         {
             Debug.WriteLine("Login Button Clicked");
-
-            ulong tmp = Download.HashFile("C:\\Users\\Mauirce Moss\\Documents\\Mission4.Altis.pbo");
-
-            Debug.WriteLine(tmp.ToString());
+            Download.start();
         }
     }
 }

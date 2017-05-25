@@ -15,17 +15,17 @@ namespace CyberByte.ArmaAdmin.Launcher
 
     class Download
     {
-        public HttpDownloadQueue downloadQueue = new HttpDownloadQueue();
+        private static HttpDownloadQueue downloadQueue = new HttpDownloadQueue();
         private static List<FileInfo> files = new List<FileInfo>();
-        private static string BaseDir = "";
+        private static string BaseDir = "D:\\Test";
         private static int BaseDirLength = 0;
 
         public static Mods GetFiles()
         {
-            dynamic files = (dynamic)Requests.Get("api/v1/files");
-
             Task<Mods> modsTask = Task<Mods>.Factory.StartNew(() =>
             {
+                dynamic files = (dynamic)Requests.Get("api/v1/files");
+
                 Mods mods = new Mods();
                 dynamic jsonMods = files.results;
 
@@ -37,7 +37,7 @@ namespace CyberByte.ArmaAdmin.Launcher
                         (string)jsonMods[i].id,
                         (string)jsonMods[i].filename,
                         (ulong)jsonMods[i].size,
-                        (string)jsonMods[i].realtive_path,
+                        (string)jsonMods[i].relative_path,
                         (ulong)jsonMods[i].hash,
                         (string)jsonMods[i].download,
                         (string)jsonMods[i].created);
@@ -66,7 +66,8 @@ namespace CyberByte.ArmaAdmin.Launcher
 
             XXHash.UpdateState64(state, stream);
 
-            return XXHash.DigestState64(state);
+            ulong result = XXHash.DigestState64(state);
+            return result;
         }
 
         private static void WalkDirectoryTree(DirectoryInfo root)
@@ -78,15 +79,18 @@ namespace CyberByte.ArmaAdmin.Launcher
             {
                 dirFiles = root.GetFiles("*.*"); //All the files in this Directory
             }
-            catch (UnauthorizedAccessException exception)
+            catch (UnauthorizedAccessException ex)
             {
+                Debug.WriteLine(ex.ToString());
             }
-            catch (DirectoryNotFoundException exception)
+            catch (DirectoryNotFoundException ex)
             {
+                Debug.WriteLine(ex.ToString());
             }
 
             if (dirFiles != null)
             {
+                
                 foreach (FileInfo fi in dirFiles)
                 {
                     files.Add(fi);
@@ -101,17 +105,24 @@ namespace CyberByte.ArmaAdmin.Launcher
             }
         }
 
-        private void calcFilesToDownload(List<Mod> mods, List<FileInfo> fileList)
+        private static bool calcFilesToDownload(List<Mod> mods, List<FileInfo> fileList)
         {
             foreach(FileInfo file in fileList)
             {
                 string relPath = file.FullName.Substring(BaseDirLength);
 
-                Mod modFile = mods.FirstOrDefault(mod => mod.Relative_Path == relPath);
+                Mod modFile = mods.FirstOrDefault(mod => mod.Name == file.Name);
 
                 if (modFile == null)
                 {
-                    //Remove File Cameron
+                    try
+                    {
+                        if (File.Exists(file.FullName)) File.Delete(file.FullName);
+                    }
+                    catch
+                    {
+                        return false;
+                    }
                     continue;
                 }
 
@@ -120,28 +131,53 @@ namespace CyberByte.ArmaAdmin.Launcher
                     downloadQueue.Add(modFile.Url, file.FullName);
                     mods.Remove(modFile);
                 }
+                else
+                {
+                    //The File we found on disk is current so remove it from the mods array to prevent it being redownloaded
+                    mods.Remove(modFile);
+                }
             }
 
-            foreach(Mod file in mods)
+            foreach (Mod file in mods)
             {
                 downloadQueue.Add(file.Url, Path.Combine(BaseDir, file.Relative_Path));
-                mods.Remove(file);
             }
+
+            return true;
         }
 
-        public void start()
+        public static void start()
         {
             Mods mods = GetFiles();
             BaseDirLength = BaseDir.Length;
             DirectoryInfo dirInf = new DirectoryInfo(BaseDir);
 
-          
             WalkDirectoryTree(dirInf);
 
-            calcFilesToDownload(mods.get(), files);
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+            Task<bool> calFileTask = Task<bool>.Factory.StartNew(() =>
+            {
+                return calcFilesToDownload(mods.get(), files);
+            });
 
-            
+            if (calFileTask.Result)
+            {
+                stopWatch.Stop();
+                TimeSpan ts = stopWatch.Elapsed;
+                string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+                Console.WriteLine("Time Taken to Build Download Queue" + elapsedTime);
+            }
+        }
 
+        public static void resume()
+        {
+            downloadQueue.ResumeAsync();
+        }
+
+        public static void pause()
+        {
+            downloadQueue.Pause();
         }
     }
 
