@@ -20,7 +20,7 @@ namespace CyberByte.ArmaAdmin.Launcher
         private static string BaseDir = "D:\\Test";
         private static int BaseDirLength = 0;
 
-        public static Mods GetFiles()
+        private static Mods GetFiles()
         {
             Task<Mods> modsTask = Task<Mods>.Factory.StartNew(() =>
             {
@@ -59,7 +59,7 @@ namespace CyberByte.ArmaAdmin.Launcher
          *  https://www.nuget.org/packages/System.Data.HashFunction.xxHash
          *  http://datahashfunction.azurewebsites.net/1.8.1/html/787eb446-5a08-d4ea-fde3-955fa4463198.htm
          */
-        public static ulong HashFile(string path)
+        private static ulong HashFile(string path)
         {
             Stream stream = File.OpenRead(path);
             XXHash.State64 state = XXHash.CreateState64();
@@ -70,6 +70,10 @@ namespace CyberByte.ArmaAdmin.Launcher
             return result;
         }
 
+        /// <summary>
+        /// Loops through all the files and subfolders and setups a list of files
+        /// </summary>
+        /// <param name="root">DirectoryInfo path</param>
         private static void WalkDirectoryTree(DirectoryInfo root)
         {
             FileInfo[] dirFiles = null;
@@ -105,7 +109,12 @@ namespace CyberByte.ArmaAdmin.Launcher
             }
         }
 
-        private static bool calcFilesToDownload(List<Mod> mods, List<FileInfo> fileList)
+        /// <summary>
+        /// Loops through all the files and mods passed to it and compares file hash to mod hash to determin if the file needs to be downloaded
+        /// </summary>
+        /// <param name="mods">List of mods</param>
+        /// <param name="fileList">List of file info</param>
+        private static bool CalcFilesToDownload(List<Mod> mods, List<FileInfo> fileList)
         {
             foreach(FileInfo file in fileList)
             {
@@ -146,7 +155,22 @@ namespace CyberByte.ArmaAdmin.Launcher
             return true;
         }
 
-        public static void start()
+        public static void Resume()
+        {
+            downloadQueue.ResumeAsync();
+        }
+
+        public static void Pause()
+        {
+            downloadQueue.Pause();
+        }
+
+        public static void Start()
+        {
+            downloadQueue.StartAsync();
+        }
+
+        public static void Setup()
         {
             Mods mods = GetFiles();
             BaseDirLength = BaseDir.Length;
@@ -156,9 +180,10 @@ namespace CyberByte.ArmaAdmin.Launcher
 
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
+
             Task<bool> calFileTask = Task<bool>.Factory.StartNew(() =>
             {
-                return calcFilesToDownload(mods.get(), files);
+                return CalcFilesToDownload(mods.get(), files);
             });
 
             if (calFileTask.Result)
@@ -168,16 +193,6 @@ namespace CyberByte.ArmaAdmin.Launcher
                 string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
                 Console.WriteLine("Time Taken to Build Download Queue" + elapsedTime);
             }
-        }
-
-        public static void resume()
-        {
-            downloadQueue.ResumeAsync();
-        }
-
-        public static void pause()
-        {
-            downloadQueue.Pause();
         }
     }
 
