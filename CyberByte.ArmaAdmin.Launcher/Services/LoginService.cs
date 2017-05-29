@@ -7,18 +7,39 @@ using System.Threading.Tasks;
 using System;
 using System.Runtime.Serialization;
 using CyberByte.ArmaAdmin.Launcher.Models;
+using System.Collections.Generic;
+using RestSharp;
+using System.Net;
 
 namespace CyberByte.ArmaAdmin.Launcher.Services
 {
     class LoginService
     {
-        public bool Login(User user)
+        public User Login(User user)
         {
-            if (true)
+            Task<User> loginTask = Task<User>.Factory.StartNew(() =>
             {
-                throw new DownloadException();
-            }
-            return true;
+                List<String[]> data = new List<String[]>();
+
+                string[] username = { "username", user.Username};
+                string[] password = { "password", user.Password };
+
+                data.Add(username);
+                data.Add(password);
+
+                IRestResponse response = Requests.Post("api-token-auth/", data);
+                dynamic content = JObject.Parse(response.Content.ToString());
+
+                if (response.StatusCode != HttpStatusCode.BadRequest)
+                {
+                    user.Token = content.token;
+                    Debug.WriteLine("User :: " + user.Token);
+                }
+
+                return user;
+            });
+
+            return loginTask.Result;
         }
     }
 }

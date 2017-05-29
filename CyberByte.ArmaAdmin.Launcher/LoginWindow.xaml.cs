@@ -38,6 +38,10 @@ namespace CyberByte.ArmaAdmin.Launcher
 
         private void Login(object sender, RoutedEventArgs e)
         {
+            user.Username = "";
+            user.Password = "";
+
+            loginService.Login(user);
         }
     }
 }

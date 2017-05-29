@@ -29,7 +29,7 @@ namespace CyberByte.ArmaAdmin.Launcher.Services
             }
         }
 
-        public static JObject Post(string url, string[][] values)
+        public static IRestResponse Post(string url, List<String[]> values)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace CyberByte.ArmaAdmin.Launcher.Services
 
                 IRestResponse response = client.Execute(request);
 
-                return JObject.Parse(response.Content.ToString());
+                return response;
             } 
             catch
             {
