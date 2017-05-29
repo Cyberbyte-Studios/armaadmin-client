@@ -35,25 +35,9 @@ namespace CyberByte.ArmaAdmin.Launcher
             this.LoginForm.DataContext = user;
         }
 
-        //void Page_Loaded(object sender, RoutedEventArgs e)
-        //{
-         //   user = new User();
-          //  this.LoginForm.DataContext = user;
-        //}
-
 
         private void Login(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                if (loginService.Login(user) == true)
-                {
-
-                }
-            }
-            catch (DownloadException)
-            {
-            }
         }
     }
 }
