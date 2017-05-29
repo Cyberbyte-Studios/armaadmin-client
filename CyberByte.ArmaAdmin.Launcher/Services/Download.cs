@@ -9,8 +9,9 @@ using System.Runtime.Serialization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CyberByte.ArmaAdmin.Launcher.Models;
 
-namespace CyberByte.ArmaAdmin.Launcher
+namespace CyberByte.ArmaAdmin.Launcher.Services
 {
 
     class Download

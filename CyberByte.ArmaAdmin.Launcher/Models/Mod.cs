@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace CyberByte.ArmaAdmin.Launcher
+namespace CyberByte.ArmaAdmin.Launcher.Models
 {
     class Mods
     {

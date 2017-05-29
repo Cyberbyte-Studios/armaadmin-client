@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 
-namespace CyberByte.ArmaAdmin.Launcher
+namespace CyberByte.ArmaAdmin.Launcher.Services
 {
     class Requests
     {
