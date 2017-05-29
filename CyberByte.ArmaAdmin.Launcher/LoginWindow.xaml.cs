@@ -38,6 +38,16 @@ namespace CyberByte.ArmaAdmin.Launcher
 
         private void Login(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                if (loginService.Login(user) == true)
+                {
+
+                }
+            }
+            catch (DownloadException)
+            {
+            }
         }
     }
 }
