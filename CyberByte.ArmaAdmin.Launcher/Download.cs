@@ -119,8 +119,9 @@ namespace CyberByte.ArmaAdmin.Launcher
             foreach(FileInfo file in fileList)
             {
                 string relPath = file.FullName.Substring(BaseDirLength);
+                relPath = relPath.Replace(@"\", "/");
 
-                Mod modFile = mods.FirstOrDefault(mod => mod.Name == file.Name);
+                Mod modFile = mods.FirstOrDefault(mod => mod.Relative_Path == relPath);
 
                 if (modFile == null)
                 {

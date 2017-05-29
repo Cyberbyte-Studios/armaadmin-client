@@ -30,6 +30,7 @@ namespace CyberByte.ArmaAdmin.Launcher
         private void login_Click(object sender, RoutedEventArgs e)
         {
             Debug.WriteLine("Login Button Clicked");
+            Download.Setup();
         }
     }
 }
