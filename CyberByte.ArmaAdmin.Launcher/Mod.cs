@@ -30,11 +30,11 @@ namespace CyberByte.ArmaAdmin.Launcher
         public String Name { get;  }
         public UInt64 Size { get; }
         public String Relative_Path { get; }
-        public UInt64 Hash { get;  }
+        public String Hash { get;  }
         public String Url { get;  }
         public String Created { get; }
 
-        public Mod(string id, string name, UInt64 size, string rel_path, ulong hash, string url, string timestamp)
+        public Mod(string id, string name, UInt64 size, string rel_path, string hash, string url, string timestamp)
         {
             Id = id;
             Name = name;

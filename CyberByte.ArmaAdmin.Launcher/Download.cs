@@ -38,7 +38,7 @@ namespace CyberByte.ArmaAdmin.Launcher
                         (string)jsonMods[i].filename,
                         (ulong)jsonMods[i].size,
                         (string)jsonMods[i].relative_path,
-                        (ulong)jsonMods[i].hash,
+                        (string)jsonMods[i].hash,
                         (string)jsonMods[i].download,
                         (string)jsonMods[i].created);
 
@@ -59,7 +59,7 @@ namespace CyberByte.ArmaAdmin.Launcher
          *  https://www.nuget.org/packages/System.Data.HashFunction.xxHash
          *  http://datahashfunction.azurewebsites.net/1.8.1/html/787eb446-5a08-d4ea-fde3-955fa4463198.htm
          */
-        private static ulong HashFile(string path)
+        private static string HashFile(string path)
         {
             Stream stream = File.OpenRead(path);
             XXHash.State64 state = XXHash.CreateState64();
@@ -67,7 +67,7 @@ namespace CyberByte.ArmaAdmin.Launcher
             XXHash.UpdateState64(state, stream);
 
             ulong result = XXHash.DigestState64(state);
-            return result;
+            return result.ToString("X");
         }
 
         /// <summary>
