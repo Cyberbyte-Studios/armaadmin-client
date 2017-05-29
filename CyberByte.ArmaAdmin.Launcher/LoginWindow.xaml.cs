@@ -14,6 +14,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 using System.Diagnostics;
+using System.Collections.ObjectModel;
+using CyberByte.ArmaAdmin.Launcher.Models;
+using CyberByte.ArmaAdmin.Launcher.Services;
 
 namespace CyberByte.ArmaAdmin.Launcher
 {
@@ -22,16 +25,35 @@ namespace CyberByte.ArmaAdmin.Launcher
     /// </summary>
     public partial class LoginWindow : MetroWindow
     {
+        private LoginService loginService;
+        private User user = new User();
+
         public LoginWindow()
         {
             InitializeComponent();
+            loginService = new LoginService();
+            this.LoginForm.DataContext = user;
         }
 
-        private void login_Click(object sender, RoutedEventArgs e)
-        {
-            Debug.WriteLine("Login Button Clicked");
+        //void Page_Loaded(object sender, RoutedEventArgs e)
+        //{
+         //   user = new User();
+          //  this.LoginForm.DataContext = user;
+        //}
 
-            Download.GetFiles();
+
+        private void Login(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (loginService.Login(user) == true)
+                {
+
+                }
+            }
+            catch (DownloadException)
+            {
+            }
         }
     }
 }
