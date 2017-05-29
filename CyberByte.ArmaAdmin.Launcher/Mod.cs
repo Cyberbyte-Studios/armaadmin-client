@@ -8,17 +8,17 @@ namespace CyberByte.ArmaAdmin.Launcher
     {
         private List<Mod> mods = new List<Mod>();
 
-        public void add(Mod mod)
+        public void Add(Mod mod)
         {
             mods.Add(mod);
         }
 
-        public List<Mod> get()
+        public List<Mod> Get()
         {
             return mods;
         }
 
-        public Mod getFile(int index)
+        public Mod GetFile(int index)
         {
             return mods[index];
         }
@@ -45,7 +45,7 @@ namespace CyberByte.ArmaAdmin.Launcher
             Created = timestamp;
         }
 
-        public void info()
+        public void Info()
         {
             Debug.WriteLine("MOD {0}, ID {1}, Hash {2}, Size {3}, Relative Path {4}, URL {5}, Created {6}", Name, Id, Hash, Size, Relative_Path, Url, Created);
         }

@@ -16,7 +16,7 @@ namespace CyberByte.ArmaAdmin.Launcher
         {
             try
             {
-                var client = new RestClient(Util.FetchConfigValue("apiBaseURL"));//Fetch the configured API URL from config
+                var client = new RestClient(Util.FetchAppSettingsValue("apiBaseURL"));//Fetch the configured API URL from config
                 var request = new RestRequest(url, Method.GET);
 
                 IRestResponse response = client.Execute(request);
@@ -25,7 +25,7 @@ namespace CyberByte.ArmaAdmin.Launcher
             }
             catch
             {
-                throw new RequestException("Unable To Process Get Request to " + Util.FetchConfigValue("apiBaseURL") + url);
+                throw new RequestException("Unable To Process Get Request to " + Util.FetchAppSettingsValue("apiBaseURL") + url);
             }
         }
 
@@ -33,7 +33,7 @@ namespace CyberByte.ArmaAdmin.Launcher
         {
             try
             {
-                var client = new RestClient(Util.FetchConfigValue("apiBaseURL"));//Fetch the configured API URL from config
+                var client = new RestClient(Util.FetchAppSettingsValue("apiBaseURL"));//Fetch the configured API URL from config
                 var request = new RestRequest(url, Method.POST);
 
                 foreach (string[] value in values)
@@ -47,7 +47,7 @@ namespace CyberByte.ArmaAdmin.Launcher
             } 
             catch
             {
-                throw new RequestException("Unable To Process Post Request to " + Util.FetchConfigValue("apiBaseURL") + url);
+                throw new RequestException("Unable To Process Post Request to " + Util.FetchAppSettingsValue("apiBaseURL") + url);
             }
         }
     }

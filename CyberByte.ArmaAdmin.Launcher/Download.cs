@@ -15,7 +15,7 @@ namespace CyberByte.ArmaAdmin.Launcher
 
     class Download
     {
-        private static HttpDownloadQueue downloadQueue = new HttpDownloadQueue();
+        public static HttpDownloadQueue downloadQueue = new HttpDownloadQueue();
         private static List<FileInfo> files = new List<FileInfo>();
         private static string BaseDir = "D:\\Test";
         private static int BaseDirLength = 0;
@@ -42,9 +42,9 @@ namespace CyberByte.ArmaAdmin.Launcher
                         (string)jsonMods[i].download,
                         (string)jsonMods[i].created);
 
-                    mod.info(); //Just prints out all the info
+                    mod.Info(); //Just prints out all the info
 
-                    mods.add(mod);
+                    mods.Add(mod);
                 };
 
                 return mods;
@@ -169,11 +169,11 @@ namespace CyberByte.ArmaAdmin.Launcher
         {
             downloadQueue.StartAsync();
         }
-
+         
         public static void Setup()
         {
             Mods mods = GetFiles();
-            BaseDirLength = BaseDir.Length;
+            BaseDirLength = BaseDir.Length; //Replace with fetch from config
             DirectoryInfo dirInf = new DirectoryInfo(BaseDir);
 
             WalkDirectoryTree(dirInf);
@@ -183,7 +183,7 @@ namespace CyberByte.ArmaAdmin.Launcher
 
             Task<bool> calFileTask = Task<bool>.Factory.StartNew(() =>
             {
-                return CalcFilesToDownload(mods.get(), files);
+                return CalcFilesToDownload(mods.Get(), files);
             });
 
             if (calFileTask.Result)
