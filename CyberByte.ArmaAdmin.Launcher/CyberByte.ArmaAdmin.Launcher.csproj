@@ -87,9 +87,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Services\LoginService.cs" />
-    <Compile Include="Mod.cs" />
+    <Compile Include="Models\Mod.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Requests.cs" />
+    <Compile Include="Services\Requests.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -102,7 +102,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Download.cs" />
+    <Compile Include="Services\Download.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

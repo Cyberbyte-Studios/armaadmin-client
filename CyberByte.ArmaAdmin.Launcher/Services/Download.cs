@@ -9,8 +9,9 @@ using System.Runtime.Serialization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CyberByte.ArmaAdmin.Launcher.Models;
 
-namespace CyberByte.ArmaAdmin.Launcher
+namespace CyberByte.ArmaAdmin.Launcher.Services
 {
 
     class Download
@@ -67,7 +68,7 @@ namespace CyberByte.ArmaAdmin.Launcher
             XXHash.UpdateState64(state, stream);
 
             ulong result = XXHash.DigestState64(state);
-            return result.ToString("X");
+            return result.ToString("X").ToLower();
         }
 
         /// <summary>
@@ -136,8 +137,11 @@ namespace CyberByte.ArmaAdmin.Launcher
                     continue;
                 }
 
-                if (HashFile(file.FullName) != modFile.Hash)
+                string curHash = HashFile(file.FullName);
+
+                if (curHash != modFile.Hash)
                 {
+
                     downloadQueue.Add(modFile.Url, file.FullName);
                     mods.Remove(modFile);
                 }
@@ -192,7 +196,7 @@ namespace CyberByte.ArmaAdmin.Launcher
                 stopWatch.Stop();
                 TimeSpan ts = stopWatch.Elapsed;
                 string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-                Console.WriteLine("Time Taken to Build Download Queue" + elapsedTime);
+                Console.WriteLine("Time Taken to Build Download Queue " + elapsedTime);
             }
         }
     }
