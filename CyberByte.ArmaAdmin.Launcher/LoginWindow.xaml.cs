@@ -40,10 +40,10 @@ namespace CyberByte.ArmaAdmin.Launcher
         {
             try
             {
-                if (loginService.Login(user) == true)
-                {
-
-                }
+                // loginService.Login(user);
+                var mainWindow = new MainWindow();
+                mainWindow.Show();
+                this.Close();
             }
             catch (DownloadException)
             {
