@@ -7,6 +7,7 @@ using RestSharp;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Runtime.Serialization;
+using CyberByte.ArmaAdmin.Launcher.Models;
 
 namespace CyberByte.ArmaAdmin.Launcher.Services
 {
@@ -49,49 +50,6 @@ namespace CyberByte.ArmaAdmin.Launcher.Services
             {
                 throw new RequestException("Unable To Process Post Request to " + Util.FetchAppSettingsValue("apiBaseURL") + url);
             }
-        }
-    }
-
-    class RequestException: Exception
-    {
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public RequestException() : base()
-
-        {
-
-        }
-
-        /// <summary>
-        /// Argument constructor
-        /// </summary>
-        /// <param name="message">This is the description of the exception</param>
-        public RequestException(String message) : base(message)
-
-        {
-
-        }
-
-        /// <summary>
-        /// Argument constructor with inner exception
-        /// </summary>
-        /// <param name="message">This is the description of the exception</param>
-        /// <param name="innerException">Inner exception</param>
-        public RequestException(String message, Exception innerException) : base(message, innerException)
-
-        {
-
-        }
-
-        /// <summary>
-        /// Argument constructor with serialization support
-        /// </summary>
-        /// <param name="info">Instance of SerializationInfo</param>
-        /// <param name="context">Instance of StreamingContext</param>
-        protected RequestException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-
         }
     }
 }

@@ -30,10 +30,15 @@ namespace CyberByte.ArmaAdmin.Launcher.Services
                 IRestResponse response = Requests.Post("api-token-auth/", data);
                 dynamic content = JObject.Parse(response.Content.ToString());
 
-                if (response.StatusCode != HttpStatusCode.BadRequest)
+                switch(response.StatusCode)
                 {
-                    user.Token = content.token;
-                    Debug.WriteLine("User :: " + user.Token);
+                    case HttpStatusCode.BadRequest:
+                        throw new CredentialsException();
+                    case HttpStatusCode.OK:
+                        user.Token = content.token;
+                        break;
+                    default:
+                        throw new BadResponseStatusException();
                 }
 
                 return user;
