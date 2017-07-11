@@ -7,12 +7,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CyberByte.ArmaAdmin.Launcher")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Arma Admin Launcher")]
+[assembly: AssemblyDescription("Cyberbyte Studios Arma Admin Launcher")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Cyberbytw Studios")]
 [assembly: AssemblyProduct("CyberByte.ArmaAdmin.Launcher")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyCopyright("Copyright © 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
