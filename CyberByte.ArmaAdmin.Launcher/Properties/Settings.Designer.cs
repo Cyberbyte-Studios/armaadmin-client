@@ -84,5 +84,26 @@ namespace CyberByte.ArmaAdmin.Launcher.Properties {
                 return ((string)(this["launcher_url"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\r\n-nosplash")]
+        public string launch_options {
+            get {
+                return ((string)(this["launch_options"]));
+            }
+            set {
+                this["launch_options"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-connect=192.168.1.1 -port=1234")]
+        public string server_options {
+            get {
+                return ((string)(this["server_options"]));
+            }
+        }
     }
 }

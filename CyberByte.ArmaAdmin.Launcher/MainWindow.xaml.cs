@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
 using MahApps.Metro.Controls;
+using System.IO;
 
 namespace CyberByte.ArmaAdmin.Launcher
 {
@@ -30,16 +31,44 @@ namespace CyberByte.ArmaAdmin.Launcher
 
         private void Teamspeak_Click(object sender, RoutedEventArgs e)
         {
-            Process teamspeak = new Process();
-            teamspeak.StartInfo.FileName = Properties.Settings.Default.teamspeak;
-            teamspeak.Start();
+            LaunchProcess(Properties.Settings.Default.teamspeak);
         }
 
         private void Forums_Click(object sender, RoutedEventArgs e)
         {
-            Process forums = new Process();
-            forums.StartInfo.FileName = Properties.Settings.Default.website;
-            forums.Start();
+            LaunchProcess(Properties.Settings.Default.website);
+        }
+
+        private void Play_Click(object sender, RoutedEventArgs e)
+        {
+            if (!File.Exists(Properties.Settings.Default.arma_exe))
+            {
+                InvalidArmaLocation();
+                return;
+            }
+            LaunchProcess($"{Properties.Settings.Default.arma_exe} {Properties.Settings.Default.server_options} {Properties.Settings.Default.launch_options}");
+        }
+
+        private void InvalidArmaLocation()
+        {
+            MessageBoxResult result = MessageBox.Show(
+                "Arma 3 location invalid. Press OK to edit.",
+                "Invalid Arma 3 Location",
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Warning
+            );
+            if (result == MessageBoxResult.OK)
+            {
+                Application.Current.Shutdown();
+            }
+        }
+
+        private Process LaunchProcess(string path)
+        {
+            Process process = new Process();
+            process.StartInfo.FileName = path;
+            process.Start();
+            return process;
         }
     }
 }

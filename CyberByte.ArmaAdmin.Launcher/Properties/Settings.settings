@@ -20,5 +20,12 @@
     <Setting Name="launcher_url" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://localhost/news.html</Value>
     </Setting>
+    <Setting Name="launch_options" Type="System.String" Scope="User">
+      <Value Profile="(Default)">
+-nosplash</Value>
+    </Setting>
+    <Setting Name="server_options" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">-connect=192.168.1.1 -port=1234</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

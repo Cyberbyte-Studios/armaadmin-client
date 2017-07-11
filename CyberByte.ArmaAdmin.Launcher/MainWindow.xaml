@@ -26,7 +26,7 @@
 
             <TextBlock Text="Download Compleate" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
             <ProgressBar Grid.Row = "1" Grid.Column = "0" Height="auto" Margin="5" />
-            <Button x:Name="login" Style="{DynamicResource SquareButtonStyle}" Margin="5" Grid.Row = "1" Grid.Column = "1" Content="Play" />
+            <Button x:Name="login" Style="{DynamicResource SquareButtonStyle}" Margin="5" Grid.Row = "1" Grid.Column = "1" Content="Play" Click="Play_Click" />
             <Button x:Name="teamspeak" Style="{DynamicResource SquareButtonStyle}" Margin="5" Grid.Row = "0" Grid.Column = "1" Content="Teamspeak" Click="Teamspeak_Click" />
         </Grid>
     </Grid>
