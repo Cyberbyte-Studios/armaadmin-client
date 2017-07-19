@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Diagnostics;
 using MahApps.Metro.Controls;
 using System.IO;
+using CyberByte.ArmaAdmin.Launcher.Services;
 
 namespace CyberByte.ArmaAdmin.Launcher
 {
@@ -41,26 +42,8 @@ namespace CyberByte.ArmaAdmin.Launcher
 
         private void Play_Click(object sender, RoutedEventArgs e)
         {
-            if (!File.Exists(Properties.Settings.Default.arma_exe))
-            {
-                InvalidArmaLocation();
-                return;
-            }
-            LaunchProcess($"{Properties.Settings.Default.arma_exe} {Properties.Settings.Default.server_options} {Properties.Settings.Default.launch_options}");
-        }
-
-        private void InvalidArmaLocation()
-        {
-            MessageBoxResult result = MessageBox.Show(
-                "Arma 3 location invalid. Press OK to edit.",
-                "Invalid Arma 3 Location",
-                MessageBoxButton.OKCancel,
-                MessageBoxImage.Warning
-            );
-            if (result == MessageBoxResult.OK)
-            {
-                Application.Current.Shutdown();
-            }
+            Arma3Service service = new Arma3Service(); // i dont needd this in a service.
+            service.Launch();
         }
 
         private Process LaunchProcess(string path)
