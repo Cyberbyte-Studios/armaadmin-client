@@ -16,6 +16,7 @@ using System.Diagnostics;
 using MahApps.Metro.Controls;
 using System.IO;
 using CyberByte.ArmaAdmin.Launcher.Services;
+using CyberByte.ArmaAdmin.Launcher.Models;
 
 namespace CyberByte.ArmaAdmin.Launcher
 {
@@ -42,8 +43,25 @@ namespace CyberByte.ArmaAdmin.Launcher
 
         private void Play_Click(object sender, RoutedEventArgs e)
         {
-            Arma3Service service = new Arma3Service(); // i dont needd this in a service.
-            service.Launch();
+            try
+            {
+                Download download = new Download();
+                download.Setup();
+            } catch (Exception exception)
+            {
+                MessageBoxResult result = MessageBox.Show(
+                    "Unable to get latest mods. Press OK to contine without checking.",
+                    "Unable to update",
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.Information
+                );
+                if (result != MessageBoxResult.OK)
+                {
+                    return;
+                }
+            }
+            Arma3Service arma3 = new Arma3Service();
+            arma3.Launch();
         }
 
         private Process LaunchProcess(string path)

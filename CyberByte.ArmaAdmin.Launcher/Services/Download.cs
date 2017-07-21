@@ -16,12 +16,12 @@ namespace CyberByte.ArmaAdmin.Launcher.Services
 
     class Download
     {
-        public static HttpDownloadQueue downloadQueue = new HttpDownloadQueue();
-        private static List<FileInfo> files = new List<FileInfo>();
-        private static string BaseDir = "D:\\Test";
-        private static int BaseDirLength = 0;
+        public HttpDownloadQueue downloadQueue = new HttpDownloadQueue();
+        private List<FileInfo> files = new List<FileInfo>();
+        private string BaseDir = "D:\\Test";
+        private int BaseDirLength = 0;
 
-        private static Mods GetFiles()
+        private Mods GetFiles()
         {
             Task<Mods> modsTask = Task<Mods>.Factory.StartNew(() =>
             {
@@ -60,7 +60,7 @@ namespace CyberByte.ArmaAdmin.Launcher.Services
          *  https://www.nuget.org/packages/System.Data.HashFunction.xxHash
          *  http://datahashfunction.azurewebsites.net/1.8.1/html/787eb446-5a08-d4ea-fde3-955fa4463198.htm
          */
-        private static string HashFile(string path)
+        private string HashFile(string path)
         {
             Stream stream = File.OpenRead(path);
             XXHash.State64 state = XXHash.CreateState64();
@@ -75,7 +75,7 @@ namespace CyberByte.ArmaAdmin.Launcher.Services
         /// Loops through all the files and subfolders and setups a list of files
         /// </summary>
         /// <param name="root">DirectoryInfo path</param>
-        private static void WalkDirectoryTree(DirectoryInfo root)
+        private void WalkDirectoryTree(DirectoryInfo root)
         {
             FileInfo[] dirFiles = null;
             DirectoryInfo[] subDirs = null;
@@ -115,7 +115,7 @@ namespace CyberByte.ArmaAdmin.Launcher.Services
         /// </summary>
         /// <param name="mods">List of mods</param>
         /// <param name="fileList">List of file info</param>
-        private static bool CalcFilesToDownload(List<Mod> mods, List<FileInfo> fileList)
+        private bool CalcFilesToDownload(List<Mod> mods, List<FileInfo> fileList)
         {
             foreach(FileInfo file in fileList)
             {
@@ -160,22 +160,22 @@ namespace CyberByte.ArmaAdmin.Launcher.Services
             return true;
         }
 
-        public static void Resume()
+        public void Resume()
         {
             downloadQueue.ResumeAsync();
         }
 
-        public static void Pause()
+        public void Pause()
         {
             downloadQueue.Pause();
         }
 
-        public static void Start()
+        public void Start()
         {
             downloadQueue.StartAsync();
         }
          
-        public static void Setup()
+        public void Setup()
         {
             Mods mods = GetFiles();
             BaseDirLength = BaseDir.Length; //Replace with fetch from config
